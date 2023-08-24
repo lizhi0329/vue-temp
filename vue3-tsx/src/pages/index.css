@@ -1,0 +1,10 @@
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.box {
+  padding: 10px;
+  border: 1px solid gray;
+}
