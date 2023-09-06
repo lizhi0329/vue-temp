@@ -1,7 +1,12 @@
 import { defineComponent } from 'vue'
+import './index.scss'
 
 export default defineComponent({
   setup() {
-    return () => <div>index</div> //写一个 hello world祭天
+    return () => (
+      <div>
+        <div class="default-btn">一个按钮</div>
+      </div>
+    )
   }
 })

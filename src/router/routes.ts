@@ -4,7 +4,7 @@ const routes = [
   //   component: () => import('@/pages/login.vue') //路由懒加载
   // },
   {
-    path: '/home',
+    path: '/',
     component: () => import('@/pages/index')
   }
 ]
