@@ -4,6 +4,8 @@ import path from 'path' //这个path用到了上面安装的@types/node
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
 import AutoImport from 'unplugin-auto-import/vite'
+import postcssPresetEnv from 'postcss-preset-env'
+import legacy from '@vitejs/plugin-legacy'
 // import Components from 'unplugin-vue-components/vite'
 // import {
 //   // ElementPlusResolver,
@@ -42,6 +44,9 @@ export default defineConfig({
         enabled: true
       },
       vueTemplate: true
+    }),
+    legacy({
+      targets: ['defaults', 'not IE 11']
     })
     // Components({
     //   dirs: ['src/components'], // 目标文件夹
@@ -62,13 +67,29 @@ export default defineConfig({
     alias: {
       '@': path.resolve('./src'), // @代替src
       '#': path.resolve('./types') // #代替types
+    },
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCase', // 展示处理之后的key,
+      scopeBehaviour: 'local', // 配置的模块化还是全局还是局部
+      generateScopedName: '[name]_[local]_[hash:5]', // 类名生成规则
+      globalModulePaths: [] // 不想参与css格式化的文件路径
+    },
+    postcss: {
+      //  postcssPresetEnv插件可以帮我们实现自动补全，语法降级等功能
+      plugins: [postcssPresetEnv()]
+      // 关于postcss文章请查看https://github.com/postcss/postcss/blob/main/docs/README-cn.md
     }
   },
   build: {
     sourcemap: false,
     reportCompressedSize: false,
+    minify: false,
     rollupOptions: {
       output: {
+        assetFileNames: '[name]-[hash].[ext]',
         manualChunks(id) {
           if (id.includes('node_modules')) {
             // 让每个插件都打包成独立的文件
